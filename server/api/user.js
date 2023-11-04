@@ -1,15 +1,16 @@
 const router = require('express').Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const bcrypt = require('bcryptjs');
 
 router.get('/', async(req, res) => {
   try {
-    const tasks = await prisma.task.findMany({
+    const users = await prisma.user.findMany({
       include: {
-        user: true,
+        task: true,
       },
     });
-    res.send(tasks);
+    res.send(users);
   } catch (error) {
     res.send(error);
   }
@@ -17,18 +18,18 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async(req, res) => {
   try {
-    const task = await prisma.task.findMany({
+    const user = await prisma.user.findMany({
       where: {
         id: Number(req.params.id),
       },
       include: {
-        user: true,
+        task: true,
       },
     });
-    if (!task) {
-      res.send({ error: true, message: 'Task not found' });
+    if (!user) {
+      res.send({ error: true, message: 'User not found' });
     } else {
-      res.send(task);
+      res.send(user);
     }
   } catch (error) {
     res.send(error);
@@ -37,10 +38,19 @@ router.get('/:id', async(req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const task = await prisma.task.create({
-      data: req.body,
+    const { username, password } = req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: {
+        username,
+        password: passwordHash,
+      },
     });
-    res.send(task);
+    if (!user) {
+      res.send({ error: 'Error creating user' });
+    } else {
+      res.send(user);
+    }
   } catch (error) {
     res.send(error);
   }
@@ -48,16 +58,16 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const task = await prisma.task.update({
+    const user = await prisma.user.update({
       where: {
         id: Number(req.params.id),
       },
       data: req.body,
     });
-    if (!task) {
-      res.send({ error: true, message: 'Task not found' });
+    if (!user) {
+      res.send({ error: true, message: 'User not found' });
     } else {
-      res.send(task);
+      res.send(user);
     }
   } catch (error) {
     res.send(error);
@@ -66,15 +76,15 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const task = await prisma.task.delete({
+    const user = await prisma.user.delete({
       where: {
         id: Number(req.params.id),
       },
     });
-    if (!task) {
-      res.send({ error: true, message: 'Task not found' });
+    if (!user) {
+      res.send({ error: true, message: 'User not found' });
     } else {
-      res.send(task);
+      res.send(user);
     }
   } catch (error) {
     res.send(error);
