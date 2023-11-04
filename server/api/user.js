@@ -36,26 +36,6 @@ router.get('/:id', async(req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const passwordHash = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
-      data: {
-        username,
-        password: passwordHash,
-      },
-    });
-    if (!user) {
-      res.send({ error: 'Error creating user' });
-    } else {
-      res.send(user);
-    }
-  } catch (error) {
-    res.send(error);
-  }
-});
-
 router.put('/:id', async (req, res) => {
   try {
     const user = await prisma.user.update({
