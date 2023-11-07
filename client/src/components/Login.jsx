@@ -34,7 +34,7 @@ const Login = () => {
   });
   return(
     <>
-      <div id="square">
+      <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
           <ThemeProvider theme={theme2}>
@@ -42,12 +42,12 @@ const Login = () => {
               size="large"
               variant="contained"
               type="submit"
-              id="register-button"
+              id="button"
             >Register</Button>
           </ThemeProvider>
         </div>
 
-        <div id="form-container">
+        <div id="container">
           <div id="form-box">
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
