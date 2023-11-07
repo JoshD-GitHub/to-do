@@ -43,7 +43,7 @@ const Login = () => {
               variant="contained"
               type="submit"
               id="register-button"
-            >Register</Button>
+            >Log In</Button>
           </ThemeProvider>
         </div>
 
@@ -77,11 +77,32 @@ const Login = () => {
               </ThemeProvider>
             </FormControl> <br />
 
+            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+              <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
+              <ThemeProvider theme={theme}>
+                <Input
+                  style={{ color: "#E0E1DD" }}
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        style={{ color: "#E0E1DD" }}
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </ThemeProvider>
+            </FormControl> <br />
+
             <Button
               style={{ color: "#E0E1DD" }}
               variant="text"
               type="submit"
-            >Log In</Button>
+            >Register</Button>
           </div>
         </div>
       </div>
