@@ -19,18 +19,28 @@ body {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
+#title-container {
+  position: relative;
+  background-color: #415A77;
+  width: 95%;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  align-items: center;
+}
+
 #title {
   text-align: center;
   font-size: 6em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
-#title-container {
-  background-color: #415A77;
-  width: 95%;
-  margin: 0 auto;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+#register-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 #form-container {

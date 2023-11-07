@@ -37,14 +37,14 @@ const Login = () => {
       <div id="square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
-          {/* <ThemeProvider theme={theme2}>
+          <ThemeProvider theme={theme2}>
             <Button
               size="large"
               variant="contained"
               type="submit"
               id="register-button"
             >Register</Button>
-          </ThemeProvider> */}
+          </ThemeProvider>
         </div>
 
         <div id="form-container">
