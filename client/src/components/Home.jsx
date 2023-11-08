@@ -7,16 +7,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   const theme = createTheme({
     palette: {
@@ -47,8 +43,48 @@ const Login = () => {
           </ThemeProvider>
         </div>
 
-        <div id="container">
-          
+        <div id="task-container">
+          <div id="task">
+            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
+              <DragHandleIcon />
+            </IconButton>
+            <div style={{ flex: 1 }}></div>
+            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </div>
+          <div id="task">
+            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
+              <DragHandleIcon />
+            </IconButton>
+            <div style={{ flex: 1 }}></div>
+            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </div>
+          <div id="task">
+            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
+              <DragHandleIcon />
+            </IconButton>
+            <div style={{ flex: 1 }}></div>
+            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </div>
+          <div id="task">
+            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
+              <DragHandleIcon />
+            </IconButton>
+            <div style={{ flex: 1 }}></div>
+            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </div>
+          <div id="circle">
+            <IconButton style={{ color: "#1B263B" }}>
+              <AddCircleIcon style={{ width: "50px", height: "50px" }}/>
+            </IconButton>
+          </div>
         </div>
       </div>
     </>
