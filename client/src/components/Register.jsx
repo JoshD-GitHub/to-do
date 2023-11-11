@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -7,8 +9,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +26,7 @@ const Login = () => {
       },
     },
   });
+
   const theme2 = createTheme({
     palette: {
       primary: {
@@ -33,6 +34,7 @@ const Login = () => {
       },
     },
   });
+  
   return(
     <>
       <div id="outer-square">
