@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,12 +39,14 @@ const Login = () => {
         <div id="title-container">
           <h1 id="title">To-Do</h1>
           <ThemeProvider theme={theme2}>
-            <Button
-              size="large"
-              variant="contained"
-              type="submit"
-              id="button"
-            >Log In</Button>
+            <Link to={'/'}>
+              <Button
+                size="large"
+                variant="contained"
+                type="submit"
+                id="button"
+              >Log In</Button>
+            </Link>
           </ThemeProvider>
         </div>
 
