@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await prisma.user.findUnique({
-    where: { username: username },
+    where: { username },
   });
 	if (user) {
 		const passwordMatch = await bcrypt.compare(password, user.password);

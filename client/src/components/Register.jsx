@@ -19,9 +19,9 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const submitHandle = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    
+
   };
 
   const theme = createTheme({
@@ -59,67 +59,68 @@ const Login = () => {
 
         <div id="container">
           <div id="form-box">
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
-              <ThemeProvider theme={theme}>
-                <Input
-                  required
-                  style={{ color: "#E0E1DD" }}
-                  className="center"
-                />
-              </ThemeProvider>
-            </FormControl> <br />
-            
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
-              <ThemeProvider theme={theme}>
-                <Input
-                  required
-                  style={{ color: "#E0E1DD" }}
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        style={{ color: "#E0E1DD" }}
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </ThemeProvider>
-            </FormControl> <br />
+            <form id="form-box" onSubmit={handleSubmit}>
+              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+                <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
+                <ThemeProvider theme={theme}>
+                  <Input
+                    required
+                    style={{ color: "#E0E1DD" }}
+                    className="center"
+                  />
+                </ThemeProvider>
+              </FormControl> <br />
+              
+              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+                <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
+                <ThemeProvider theme={theme}>
+                  <Input
+                    required
+                    style={{ color: "#E0E1DD" }}
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          style={{ color: "#E0E1DD" }}
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </ThemeProvider>
+              </FormControl> <br />
 
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
-              <ThemeProvider theme={theme}>
-                <Input
-                  required
-                  style={{ color: "#E0E1DD" }}
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        style={{ color: "#E0E1DD" }}
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </ThemeProvider>
-            </FormControl> <br />
+              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+                <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
+                <ThemeProvider theme={theme}>
+                  <Input
+                    required
+                    style={{ color: "#E0E1DD" }}
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          style={{ color: "#E0E1DD" }}
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </ThemeProvider>
+              </FormControl> <br />
 
-            <Button
-              style={{ color: "#E0E1DD" }}
-              variant="text"
-              type="submit"
-              onClick={() => { submitHandle }}
-            >Register</Button>
+              <Button
+                style={{ color: "#E0E1DD" }}
+                variant="text"
+                type="submit"
+              >Register</Button>
+            </form>
           </div>
         </div>
       </div>
