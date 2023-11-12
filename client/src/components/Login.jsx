@@ -23,7 +23,6 @@ const Login = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(`Name: ${name}, Value: ${value}`);
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -93,55 +92,52 @@ const Login = () => {
         </div>
 
         <div id="container">
-          <div id="form-box">
-            <form id="form-box" onSubmit={handleSubmit}>
-              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-                <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
-                <ThemeProvider theme={theme}>
-                  <Input
-                    required
-                    name="username"
-                    onChange={handleChange}
-                    value={formData.username}
-                    style={{ color: "#E0E1DD" }}
-                    className="center"
-                  />
-                </ThemeProvider>
-              </FormControl> <br />
-              
-              <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-                <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
-                <ThemeProvider theme={theme}>
-                  <Input
-                    required
-                    name="password"
-                    onChange={handleChange}
-                    value={formData.password}
-                    style={{ color: "#E0E1DD" }}
-                    type={showPassword ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          style={{ color: "#E0E1DD" }}
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </ThemeProvider>
-              </FormControl> <br />
+          <form id="form-box" onSubmit={handleSubmit}>
+            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+              <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
+              <ThemeProvider theme={theme}>
+                <Input
+                  required
+                  name="username"
+                  onChange={handleChange}
+                  value={formData.username}
+                  style={{ color: "#E0E1DD" }}
+                  className="center"
+                />
+              </ThemeProvider>
+            </FormControl> <br />
+            
+            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+              <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
+              <ThemeProvider theme={theme}>
+                <Input
+                  required
+                  name="password"
+                  onChange={handleChange}
+                  value={formData.password}
+                  style={{ color: "#E0E1DD" }}
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        style={{ color: "#E0E1DD" }}
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </ThemeProvider>
+            </FormControl> <br />
 
-              <Button
-                // onClick={handleSubmit}
-                style={{ color: "#E0E1DD" }}
-                variant="text"
-                type="submit"
-              >Log In</Button>
-            </form>
-          </div>
+            <Button
+              style={{ color: "#E0E1DD" }}
+              variant="text"
+              type="submit"
+            >Log In</Button>
+          </form>
         </div>
       </div>
     </>
