@@ -13,7 +13,6 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-
 const Login = () => {
   const navigate = useNavigate();
 
@@ -49,19 +48,21 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-      if (response.ok) {
+      if (response.status === 201) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         navigate('/home');
-      } else {
-        console.log('Log in failed');
+      } else if (response.status === 409) {
+        alert('User does not exist');
+       } else {
+        console.log('Log in failed.');
       }
     } catch (error) {
-      console.log(error);
+      console.log('Log in failed.');
     }
   };
 
-  const theme = createTheme({
+  const themeLight = createTheme({
     palette: {
       primary: {
         main: "#778DA9",
@@ -69,7 +70,7 @@ const Login = () => {
     },
   });
 
-  const theme2 = createTheme({
+  const themeDark = createTheme({
     palette: {
       primary: {
         main: "#1B263B",
@@ -82,7 +83,7 @@ const Login = () => {
       <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
-          <ThemeProvider theme={theme2}>
+          <ThemeProvider theme={themeDark}>
             <Link to={'/register'}>
               <Button
                 size="large"
@@ -98,7 +99,7 @@ const Login = () => {
           <form id="form-box" onSubmit={handleSubmit}>
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themeLight}>
                 <Input
                   required
                   name="username"
@@ -112,7 +113,7 @@ const Login = () => {
             
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themeLight}>
                 <Input
                   required
                   name="password"

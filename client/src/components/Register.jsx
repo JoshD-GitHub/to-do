@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   createTheme,
   ThemeProvider,
@@ -14,7 +14,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+  
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -22,12 +26,54 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
 
+  const handleMouseDownPasswordConfirm = (event) => {
+    event.preventDefault();
   };
 
-  const theme = createTheme({
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    passwordConfirm: '',
+  });
+  
+  const passwordsMatch = formData.password === formData.passwordConfirm;
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { username, password } = formData;
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.status === 201) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        navigate('/home');
+      } else if (response.status === 409) {
+        alert('Username is not unique. Please choose another.');
+       } else {
+        console.log('Register failed');
+      }
+    } catch (error) {
+      console.log('Register failed');
+    }
+  };
+
+  const themeLight = createTheme({
     palette: {
       primary: {
         main: "#778DA9",
@@ -35,7 +81,7 @@ const Login = () => {
     },
   });
 
-  const theme2 = createTheme({
+  const themeDark = createTheme({
     palette: {
       primary: {
         main: "#1B263B",
@@ -48,7 +94,7 @@ const Login = () => {
       <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
-          <ThemeProvider theme={theme2}>
+          <ThemeProvider theme={themeDark}>
             <Link to={'/'}>
               <Button
                 size="large"
@@ -64,9 +110,12 @@ const Login = () => {
           <form id="form-box" onSubmit={handleSubmit}>
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themeLight}>
                 <Input
                   required
+                  name="username"
+                  onChange={handleChange}
+                  value={formData.username}
                   style={{ color: "#E0E1DD" }}
                   className="center"
                 />
@@ -75,9 +124,12 @@ const Login = () => {
             
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themeLight}>
                 <Input
                   required
+                  name="password"
+                  onChange={handleChange}
+                  value={formData.password}
                   style={{ color: "#E0E1DD" }}
                   type={showPassword ? "text" : "password"}
                   endAdornment={
@@ -97,19 +149,22 @@ const Login = () => {
 
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={themeLight}>
                 <Input
                   required
+                  name="passwordConfirm"
+                  onChange={handleChange}
+                  value={formData.passwordConfirm}
                   style={{ color: "#E0E1DD" }}
-                  type={showPassword ? "text" : "password"}
+                  type={showPasswordConfirm ? "text" : "password"}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
                         style={{ color: "#E0E1DD" }}
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
+                        onClick={handleClickShowPasswordConfirm}
+                        onMouseDown={handleMouseDownPasswordConfirm}
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   }
@@ -118,9 +173,10 @@ const Login = () => {
             </FormControl> <br />
 
             <Button
-              style={{ color: "#E0E1DD" }}
+              style={passwordsMatch ? { color: "#E0E1DD" } : { color: "#1B263B" }}
               variant="text"
               type="submit"
+              disabled={!passwordsMatch}
             >Register</Button>
           </form>
         </div>
