@@ -17,6 +17,8 @@ import Stack from '@mui/material/Stack';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [showError, setShowError] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -32,6 +34,7 @@ const Login = () => {
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -47,20 +50,23 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-      if (response.status === 200) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        navigate('/home');
-      } else if (response.status === 401) {
-        alert('User does not exist');
-       } else {
-        console.log('Log in failed.');
+      switch (response.status) {
+        case 200:
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          navigate('/home');
+          break;
+        case 401:
+          setShowWarning(true);
+          break;
+        default:
+          setShowError(true);
       }
     } catch (error) {
-      console.log('Log in failed.');
+      setShowError(true);
     }
   };
-  
+
   const themeLight = createTheme({
     palette: {
       primary: {
@@ -68,6 +74,7 @@ const Login = () => {
       },
     },
   });
+
   const themeDark = createTheme({
     palette: {
       primary: {
@@ -78,10 +85,18 @@ const Login = () => {
 
   return(
     <>
-      <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
-        <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
-        <Alert severity="warning"><strong>Incorrect Username or Password</strong></Alert>
-      </Stack>
+      {showWarning && 
+        <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="warning"><strong>Incorrect Username or Password</strong></Alert>
+        </Stack>
+      }
+
+      {showError && 
+        <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+        </Stack>
+      }
+      
       <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
