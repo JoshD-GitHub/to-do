@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@mui/icons-material';x
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate, Link } from "react-router-dom";
 import {
+  createTheme,
+  ThemeProvider,
   Button,
   FormControl,
   IconButton,
@@ -10,6 +10,8 @@ import {
   InputLabel,
   InputAdornment,
 } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const Login = () => {
