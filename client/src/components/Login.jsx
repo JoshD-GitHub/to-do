@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { useState } from 'react';
+import { useNavigate, Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -12,12 +12,50 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const submitHandle = async (event) => {
+    event.preventDefault();
+    const { username, password } = formData;
+    try {
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        navigate('/home');
+      } else {
+        console.log('Log in failed');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const theme = createTheme({
@@ -58,7 +96,14 @@ const Login = () => {
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
               <ThemeProvider theme={theme}>
-                <Input style={{ color: "#E0E1DD" }} className="center"/>
+                <Input
+                  required
+                  name="username"
+                  onChange={handleChange}
+                  value={formData.username}
+                  style={{ color: "#E0E1DD" }}
+                  className="center"
+                />
               </ThemeProvider>
             </FormControl> <br />
             
@@ -66,6 +111,10 @@ const Login = () => {
               <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
               <ThemeProvider theme={theme}>
                 <Input
+                  required
+                  name="password"
+                  onChange={handleChange}
+                  value={formData.password}
                   style={{ color: "#E0E1DD" }}
                   type={showPassword ? "text" : "password"}
                   endAdornment={
@@ -87,6 +136,7 @@ const Login = () => {
               style={{ color: "#E0E1DD" }}
               variant="text"
               type="submit"
+              onClick={submitHandle}
             >Log In</Button>
           </div>
         </div>

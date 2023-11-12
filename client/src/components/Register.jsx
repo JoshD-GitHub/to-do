@@ -19,6 +19,11 @@ const Login = () => {
     event.preventDefault();
   };
 
+  const submitHandle = (event) => {
+    event.preventDefault();
+    
+  };
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -57,7 +62,11 @@ const Login = () => {
             <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
               <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
               <ThemeProvider theme={theme}>
-                <Input style={{ color: "#E0E1DD" }} className="center"/>
+                <Input
+                  required
+                  style={{ color: "#E0E1DD" }}
+                  className="center"
+                />
               </ThemeProvider>
             </FormControl> <br />
             
@@ -65,6 +74,7 @@ const Login = () => {
               <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
               <ThemeProvider theme={theme}>
                 <Input
+                  required
                   style={{ color: "#E0E1DD" }}
                   type={showPassword ? "text" : "password"}
                   endAdornment={
@@ -86,6 +96,7 @@ const Login = () => {
               <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
               <ThemeProvider theme={theme}>
                 <Input
+                  required
                   style={{ color: "#E0E1DD" }}
                   type={showPassword ? "text" : "password"}
                   endAdornment={
@@ -107,6 +118,7 @@ const Login = () => {
               style={{ color: "#E0E1DD" }}
               variant="text"
               type="submit"
+              onClick={() => { submitHandle }}
             >Register</Button>
           </div>
         </div>
