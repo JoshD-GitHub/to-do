@@ -17,9 +17,7 @@ import Stack from '@mui/material/Stack';
 
 const Login = () => {
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -32,9 +30,8 @@ const Login = () => {
       [name]: value,
     }));
   };
-  
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -50,11 +47,11 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-      if (response.status === 201) {
+      if (response.status === 200) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         navigate('/home');
-      } else if (response.status === 409) {
+      } else if (response.status === 401) {
         alert('User does not exist');
        } else {
         console.log('Log in failed.');
@@ -63,7 +60,7 @@ const Login = () => {
       console.log('Log in failed.');
     }
   };
-
+  
   const themeLight = createTheme({
     palette: {
       primary: {
@@ -71,7 +68,6 @@ const Login = () => {
       },
     },
   });
-
   const themeDark = createTheme({
     palette: {
       primary: {

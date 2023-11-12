@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
     const user = req.body;
     const isUnique = await checkUniqueUsername(user.username);
     if (!isUnique) {
-      return res.status(409).json({ error: 'Username is not unique. Please choose another.' });
+      return res.status(409).json({ error: 'Username already exists' });
     }
     user.password = await bcrypt.hash(user.password, 10);
     const result = await prisma.user.create({
@@ -45,10 +45,10 @@ router.post('/register', async (req, res) => {
       const token = jwt.sign({ id: result.id }, process.env.JWT);
 			res.status(201).send({ token });
     } else {
-      res.send({ error: 'Error creating user' });
+      res.status(500).json({ error: 'Internal server error' });
     }
   } catch (error) {
-    res.send(error);
+    res.status(400).json({ error: 'The server could not understand the request'});
   }
 });
 
@@ -63,9 +63,9 @@ router.post('/login', async (req, res) => {
       where: { username },
     });
     const token = jwt.sign({ id: user.id }, process.env.JWT);
-    res.status(201).send({ token });
+    res.status(200).send({ token });
   } catch (error) {
-    res.send(400).json({ error: 'The server could not understand the request.'});
+    res.status(400).json({ error: 'The server could not understand the request'});
   }
 });
 
