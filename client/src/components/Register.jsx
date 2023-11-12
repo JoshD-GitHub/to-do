@@ -15,7 +15,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [showError, setShowError] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -203,4 +203,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

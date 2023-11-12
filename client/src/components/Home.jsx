@@ -12,7 +12,7 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const Login = () => {
+const Home = () => {
 
   const theme = createTheme({
     palette: {
@@ -91,4 +91,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Home;
