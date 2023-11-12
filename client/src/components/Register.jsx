@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {
+  Button,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+} from '@mui/material';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
