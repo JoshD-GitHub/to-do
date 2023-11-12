@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import {
   createTheme,
   ThemeProvider,
@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -80,11 +82,15 @@ const Login = () => {
 
   return(
     <>
+      <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
+        <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+        <Alert severity="warning"><strong>Incorrect Username or Password</strong></Alert>
+      </Stack>
       <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
           <ThemeProvider theme={themeDark}>
-            <Link to={'/register'}>
+            <Link to={"/register"}>
               <Button
                 size="large"
                 variant="contained"

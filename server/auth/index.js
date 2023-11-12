@@ -1,18 +1,30 @@
-const router = require('express').Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt= require('jsonwebtoken');
 
-const checkUsername = async (username) => {
+const checkUniqueUsername = async (username) => {
   const existingUser = await prisma.user.findUnique({
     where: {
       username: username,
     },
   });
-
   return !existingUser;
 };
+
+const verifyCredentials = async (username, password) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+  });
+  if (!user) {
+    return false;
+  }
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  return passwordMatch;
+}
 
 router.get('/', (req, res) => {
   res.send('You have reached the auth router');
@@ -21,7 +33,7 @@ router.get('/', (req, res) => {
 router.post('/register', async (req, res) => {
   try {
     const user = req.body;
-    const isUnique = await checkUsername(user.username);
+    const isUnique = await checkUniqueUsername(user.username);
     if (!isUnique) {
       return res.status(409).json({ error: 'Username is not unique. Please choose another.' });
     }
@@ -41,24 +53,20 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await prisma.user.findUnique({
-    where: { username },
-  });
-  if (!user) {
-    return res.status(409).json({ error: 'User does not exist.' });
+  try {
+    const { username, password } = req.body;
+    const verify = await verifyCredentials(username, password);
+    if (!verify) {
+      return res.status(401).json({ error: 'Incorrect username or password' });
+    }
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+    const token = jwt.sign({ id: user.id }, process.env.JWT);
+    res.status(201).send({ token });
+  } catch (error) {
+    res.send(400).json({ error: 'The server could not understand the request.'});
   }
-	if (user) {
-		const passwordMatch = await bcrypt.compare(password, user.password);
-		if (passwordMatch) {
-			const token = jwt.sign({ id: user.id }, process.env.JWT);
-			res.status(201).send({ token });
-		} else {
-			res.send({ message: 'Invalid Login' });
-		}
-	} else {
-		res.send({ message: 'Invalid Login' });
-	}
 });
 
 module.exports = router;
