@@ -3,23 +3,32 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   createTheme,
   ThemeProvider,
+  Alert,
   Button,
   FormControl,
   IconButton,
   Input,
   InputLabel,
   InputAdornment,
+  Stack,
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const [showError, setShowError] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    passwordConfirm: '',
+  });
+  const passwordsMatch = formData.password === formData.passwordConfirm;
   
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -32,13 +41,6 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    passwordConfirm: '',
-  });
-  
-  const passwordsMatch = formData.password === formData.passwordConfirm;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -59,17 +61,20 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-      if (response.status === 201) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        navigate('/home');
-      } else if (response.status === 409) {
-        alert('Username is not unique. Please choose another.');
-       } else {
-        console.log('Register failed');
+      switch (response.status) {
+        case 201:
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          navigate('/home');
+          break;
+        case 409:
+          setShowWarning(true);
+          break;
+        default:
+          setShowError(true);
       }
     } catch (error) {
-      console.log('Register failed');
+      setShowError(true);
     }
   };
 
@@ -91,6 +96,19 @@ const Login = () => {
   
   return(
     <>
+
+      {showWarning && 
+        <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="warning"><strong>Username already exists</strong></Alert>
+        </Stack>
+      }
+
+      {showError && 
+        <Stack sx={{ width: "30%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+        </Stack>
+      }
+
       <div id="outer-square">
         <div id="title-container">
           <h1 id="title">To-Do</h1>
