@@ -1,28 +1,14 @@
-const router = require('express').Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const router = require('express').Router();
+const authenticateToken = require('./utils');
 
-router.get('/', async(req, res) => {
+router.get('/', authenticateToken, async(req, res) => {
   try {
-    const tasks = await prisma.task.findMany({
-      include: {
-        user: true,
-      },
-    });
-    res.send(tasks);
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-router.get('/:id', async(req, res) => {
-  try {
+    const userId = req.userId;
     const task = await prisma.task.findMany({
       where: {
-        id: Number(req.params.id),
-      },
-      include: {
-        user: true,
+        userId: userId,
       },
     });
     if (!task) {
@@ -31,7 +17,24 @@ router.get('/:id', async(req, res) => {
       res.send(task);
     }
   } catch (error) {
-    res.send(error);
+    res.send({ error: true, message: 'Error finding task' });
+  }
+});
+
+router.get('/:id', async(req, res) => {
+  try {
+    const task = await prisma.task.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    if (!task) {
+      res.send({ error: true, message: 'Task not found' });
+    } else {
+      res.send(task);
+    }
+  } catch (error) {
+    res.send({ error: true, message: 'Error finding task' });
   }
 });
 

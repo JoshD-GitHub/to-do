@@ -71,6 +71,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-content: center;
+  overflow-y: auto;
   margin: 0 auto;
   background-color: #415A77;
   width: 90vw;
@@ -81,8 +82,11 @@ body {
 
 #task {
   background-color: #E0E1DD;
+  color: #0D1B2A;
+  text-align: center;
   width: 86vw;
-  height: 100px;
+  height: 80px;
+  min-height: 80px;
   border-radius: 20px;
   margin-top: 30px;
   margin: 10px auto;

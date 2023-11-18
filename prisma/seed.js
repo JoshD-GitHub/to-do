@@ -31,6 +31,22 @@ const main = async () => {
 
   await prisma.task.create({
     data: {
+      userId: 1,
+      taskTitle: 'Captain\'s Log, Stardate 1512.2.',
+      taskDescription: 'On our third day of star mapping, an unexplained cubical object blocked our vessel\'s path. On the bridge, Mr. Spock immediately ordered general alert. My location – sickbay. Quarterly physical check.',
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      userId: 1,
+      taskTitle: 'Captain\'s Log, Stardate 1672.1.',
+      taskDescription: 'Specimen-gathering mission on planet Alfa 177. Unknown to any of us during this time, a duplicate of me, some strange alter ego, had been created by the transporter malfunction.',
+    },
+  });
+
+  await prisma.task.create({
+    data: {
       userId: 2,
       taskTitle: 'Tea. Earl Grey. Hot.',
       taskDescription: '',
