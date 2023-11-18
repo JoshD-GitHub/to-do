@@ -14,7 +14,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Task from './Task';
 
 const Home = () => {
-
   const themeLight = createTheme({
     palette: {
       primary: {
@@ -29,6 +28,7 @@ const Home = () => {
       },
     },
   });
+
   return(
     <>
       <div id="outer-square">
@@ -45,18 +45,7 @@ const Home = () => {
         </div>
 
         <div id="task-container">
-          {/* <div id="task">
-            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
-              <DragHandleIcon />
-            </IconButton>
-            <div style={{ flex: 1 }}></div>
-            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
-              <DeleteOutlineOutlinedIcon />
-            </IconButton>
-          </div> */}
-
           <Task />
-
           <div id="circle">
             <IconButton style={{ color: "#1B263B" }}>
               <AddCircleIcon style={{ width: "50px", height: "50px" }}/>
