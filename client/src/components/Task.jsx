@@ -17,19 +17,12 @@ const Task = () => {
   const [editedDescription, setEditedDescription] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/task/', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }});
-      const data = await response.json();
-      setTasks(data);
-    };
+  const changesMade = selectedTask && (
+    editedTitle !== selectedTask.taskTitle ||
+    editedDescription !== selectedTask.taskDescription
+  );
 
+  useEffect(() => {
     fetchTask();
   }, []);
 
@@ -45,9 +38,40 @@ const Task = () => {
     setSelectedTask(null);
   };
 
-  const handleSave = () => {
-    // send a request to your server to update the task
-    closeModal();
+  const fetchTask = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch('/api/task/', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }});
+    const data = await response.json();
+    setTasks(data);
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`/api/task/${selectedTask.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          taskTitle: editedTitle,
+          taskDescription: editedDescription,
+        }),
+      });
+  
+      if (response.ok) {
+        fetchTask();
+        closeModal();
+      } else {
+        console.error('Error updating task');
+      }
+    } catch (error) {
+      console.error('Error updating task');
+    }
   };
 
   const themeLight = createTheme({
@@ -65,12 +89,7 @@ const Task = () => {
       },
     },
   });
-
-  const changesMade = selectedTask && (
-    editedTitle !== selectedTask.taskTitle ||
-    editedDescription !== selectedTask.taskDescription
-  );
-
+  
   return(
     <>
       {
@@ -99,7 +118,7 @@ const Task = () => {
                   variant="filled"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
-                  label="Title"
+                  label="Task Title"
                   multiline
                 />
                 <TextField
@@ -108,13 +127,11 @@ const Task = () => {
                   variant="filled"
                   value={editedDescription}
                   onChange={(e) => setEditedDescription(e.target.value)}
-                  label="Description"
+                  label="Task Description"
                   multiline
                   rows={18}
                   sx={{ mt: 2 }}
                 />
-              </ThemeProvider>
-              <ThemeProvider theme={themeDark}>
                 <Button
                   size="large"
                   variant="contained"

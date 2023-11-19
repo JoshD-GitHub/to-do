@@ -33,6 +33,8 @@ body {
   text-align: center;
   font-size: 6em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  border: solid 2px #778DA9;
+  border-radius: 10px;
 }
 
 #button {
@@ -83,6 +85,7 @@ body {
   overflow-y: auto;
   margin: 0 auto;
   background-color: #415A77;
+  border: solid 2px #778DA9;
   width: 90vw;
   height: 62vh;
   border-radius: 10px;
@@ -92,6 +95,7 @@ body {
 #task {
   background-color: #E0E1DD;
   color: #0D1B2A;
+  border: solid 2px #0D1B2A;
   text-align: center;
   width: 86vw;
   height: 80px;
@@ -120,6 +124,7 @@ body {
   align-items: center;
   justify-content: center;
   margin: auto auto;
+  border: solid 2px #0D1B2A;
 }
 
 .modal {

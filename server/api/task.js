@@ -62,12 +62,13 @@ router.put('/:id', async (req, res) => {
       data: req.body,
     });
     if (!task) {
-      res.send({ error: true, message: 'Error creating task' });
+      res.status(404).send({ error: true, message: 'Task not found' });
     } else {
-      res.send(task);
+      res.status(200).send(task);
     }
   } catch (error) {
-    res.send(error);
+    console.error('Prisma error:', error);
+    res.status(500).send({ error: true, message: 'Internal server error' });
   }
 });
 
