@@ -208,8 +208,8 @@ const Task = () => {
       }
 
 
-      {
-        tasks && tasks.map((task) => (
+      {tasks && 
+        tasks.map((task) => (
           <div id="task" key={task.id} onClick={() => openModal(task)}>
             <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
               <DragHandleIcon />
