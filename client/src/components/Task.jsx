@@ -9,18 +9,38 @@ import {
   IconButton,
   TextField
 } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 
 const Task = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
+  const [createTitle, setCreateTitle] = useState('');
+  const [createDescription, setCreateDescription] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   const changesMade = selectedTask && (
     editedTitle !== selectedTask.taskTitle ||
     editedDescription !== selectedTask.taskDescription
   );
+
+  const createChangesMade = (
+    createTitle !== '' ||
+    createDescription !== ''
+  );
+
+  const openCreateModal = () => {
+    setCreateTitle(''); // Clear previous data
+    setCreateDescription(''); // Clear previous data
+    setIsCreating(true);
+  };
+
+  const closeCreateModal = () => {
+    setIsCreating(false);
+  };
 
   useEffect(() => {
     fetchTask();
@@ -71,6 +91,32 @@ const Task = () => {
       }
     } catch (error) {
       console.error('Error updating task');
+    }
+  };
+
+  const handleCreate = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/task/', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          taskTitle: createTitle,
+          taskDescription: createDescription,
+        }),
+      });
+  
+      if (response.ok) {
+        fetchTask();
+        closeCreateModal();
+      } else {
+        console.error('Error creating task:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating task:', error.message);
     }
   };
 
@@ -146,6 +192,51 @@ const Task = () => {
           </div>
         </div>
       )}
+
+      {isCreating && (
+        <div className="modal">
+          <div className="modal-content">            
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <ThemeProvider theme={themeDark}>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  value={createTitle}
+                  onChange={(e) => setCreateTitle(e.target.value)}
+                  label="Task Title"
+                  multiline
+                />
+                <TextField
+                  fullWidth
+                  className="overflow"
+                  variant="filled"
+                  value={createDescription}
+                  onChange={(e) => setCreateDescription(e.target.value)}
+                  label="Task Description"
+                  multiline
+                  rows={18}
+                  sx={{ mt: 2 }}
+                />
+                <Button
+                  size="large"
+                  variant="contained"
+                  type="submit"
+                  id="button bottom"
+                  onClick={createChangesMade ? handleCreate : closeCreateModal}
+                  sx={{ mt: 2 }}>
+                  {createChangesMade ? 'Create' : 'Exit'}
+                </Button>
+              </ThemeProvider>
+            </FormControl>
+          </div>
+        </div>
+      )}
+
+      <div id="circle">
+        <IconButton style={{ color: "#1B263B" }} onClick={() => openCreateModal()}>
+          <AddCircleIcon style={{ width: "50px", height: "50px" }} />
+        </IconButton>
+      </div>
     </>
   );
 };

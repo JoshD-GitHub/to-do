@@ -38,18 +38,24 @@ router.get('/:id', async(req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
+    const userId = req.userId;
+    const {taskTitle, taskDescription} = req.body;
     const task = await prisma.task.create({
-      data: req.body,
+      data: {
+        userId,
+        taskTitle,
+        taskDescription,
+      },
     });
     if (!task) {
-      res.send({ error: 'Error creating task' });
+      res.status(500).json({ error: 'Error creating task' });
     } else {
-      res.send(task);
+      res.status(201).json(task);
     }
   } catch (error) {
-    res.send(error);
+    res.status(500).json({ error });
   }
 });
 

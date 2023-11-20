@@ -46,11 +46,7 @@ const Home = () => {
 
         <div id="task-container">
           <Task />
-          <div id="circle">
-            <IconButton style={{ color: "#1B263B" }}>
-              <AddCircleIcon style={{ width: "50px", height: "50px" }}/>
-            </IconButton>
-          </div>
+          
         </div>
       </div>
     </>
