@@ -41,12 +41,15 @@ router.get('/:id', async(req, res) => {
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const userId = req.userId;
-    const {taskTitle, taskDescription} = req.body;
+    const { taskTitle, taskDescription } = req.body;
+    if (!taskTitle.trim()) {
+      return res.status(400).json({ error: 'Task title cannot be blank' });
+    }
     const task = await prisma.task.create({
       data: {
         userId,
         taskTitle,
-        taskDescription,
+        taskDescription
       },
     });
     if (!task) {
@@ -59,8 +62,12 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   try {
+    const { taskTitle, taskDescription } = req.body;
+    if (!taskTitle.trim()) {
+      return res.status(400).json({ error: 'Task title cannot be blank' });
+    }
     const task = await prisma.task.update({
       where: {
         id: Number(req.params.id),
@@ -73,12 +80,11 @@ router.put('/:id', async (req, res) => {
       res.status(200).send(task);
     }
   } catch (error) {
-    console.error('Prisma error:', error);
     res.status(500).send({ error: true, message: 'Internal server error' });
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const task = await prisma.task.delete({
       where: {
@@ -86,12 +92,12 @@ router.delete('/:id', async (req, res) => {
       },
     });
     if (!task) {
-      res.send({ error: true, message: 'Task not found' });
+      res.status(404).json({ error: true, message: 'Task not found' });
     } else {
-      res.send(task);
+      res.status(200).json(task);
     }
   } catch (error) {
-    res.send(error);
+    res.status(500).json({ error: true, message: 'Internal server error' });
   }
 });
 

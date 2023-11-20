@@ -25,18 +25,16 @@ const Login = () => {
     password: '',
   });
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (e) => {e.preventDefault()};
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   const handleSubmit = async (event) => {
@@ -58,12 +56,15 @@ const Login = () => {
           break;
         case 401:
           setShowWarning(true);
+          setTimeout(() => {setShowWarning(false)}, 5000);
           break;
         default:
           setShowError(true);
+          setTimeout(() => {setShowError(false)}, 5000);
       }
     } catch (error) {
       setShowError(true);
+      setTimeout(() => {setShowError(false)}, 5000);
     }
   };
 

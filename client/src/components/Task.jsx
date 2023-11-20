@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import {
@@ -7,12 +7,16 @@ import {
   Button,
   FormControl,
   IconButton,
-  TextField
+  TextField,
+  Stack,
+  Alert,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const Task = () => {
+  const [showError, setShowError] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [editedTitle, setEditedTitle] = useState('');
@@ -21,6 +25,7 @@ const Task = () => {
   const [createDescription, setCreateDescription] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const isFuncInProgress = useRef(false);
 
   const changesMade = selectedTask && (
     editedTitle !== selectedTask.taskTitle ||
@@ -33,8 +38,8 @@ const Task = () => {
   );
 
   const openCreateModal = () => {
-    setCreateTitle(''); // Clear previous data
-    setCreateDescription(''); // Clear previous data
+    setCreateTitle('');
+    setCreateDescription('');
     setIsCreating(true);
   };
 
@@ -47,10 +52,12 @@ const Task = () => {
   }, []);
 
   const openModal = (task) => {
-    setSelectedTask(task);
-    setEditedTitle(task.taskTitle);
-    setEditedDescription(task.taskDescription);
-    setIsEditing(true);
+    if (!isFuncInProgress.current) {
+      setSelectedTask(task);
+      setEditedTitle(task.taskTitle);
+      setEditedDescription(task.taskDescription);
+      setIsEditing(true);
+    }
   };
 
   const closeModal = () => {
@@ -72,9 +79,11 @@ const Task = () => {
 
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`/api/task/${selectedTask.id}`, {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -82,15 +91,23 @@ const Task = () => {
           taskDescription: editedDescription,
         }),
       });
-  
-      if (response.ok) {
-        fetchTask();
-        closeModal();
-      } else {
-        console.error('Error updating task');
+
+      switch (response.status) {
+        case 200:
+          fetchTask();
+          closeModal();
+          break;
+        case 400:
+          setShowWarning(true);
+          setTimeout(() => {setShowWarning(false)}, 5000);
+          break;
+        default:
+          setShowError(true);
+          setTimeout(() => {setShowError(false)}, 5000);
       }
     } catch (error) {
-      console.error('Error updating task');
+      setShowError(true);
+      setTimeout(() => {setShowError(false)}, 5000);
     }
   };
 
@@ -108,15 +125,55 @@ const Task = () => {
           taskDescription: createDescription,
         }),
       });
-  
-      if (response.ok) {
-        fetchTask();
-        closeCreateModal();
-      } else {
-        console.error('Error creating task:', response.status, response.statusText);
+
+      switch (response.status) {
+        case 201:
+          fetchTask();
+          closeCreateModal();
+          break;
+        case 400:
+          setShowWarning(true);
+          setTimeout(() => {setShowWarning(false)}, 5000);
+          break;
+        default:
+          setShowError(true);
+          setTimeout(() => {setShowError(false)}, 5000);
       }
     } catch (error) {
-      console.error('Error creating task:', error.message);
+      setShowError(true);
+      setTimeout(() => {setShowError(false)}, 5000);
+    }
+  };
+
+  const handleDelete = async (taskId) => {
+    try {
+      isFuncInProgress.current = true;
+      setTimeout(() => {isFuncInProgress.current = false}, 500);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/task/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      switch (response.status) {
+        case 200:
+          fetchTask();
+          closeCreateModal();
+          break;
+        case 404:
+          setShowWarning(true);
+          setTimeout(() => {setShowWarning(false)}, 5000);
+          break;
+        default:
+          setShowError(true);
+          setTimeout(() => {setShowError(false)}, 5000);
+      }
+    } catch (error) {
+      setShowError(true);
+      setTimeout(() => {setShowError(false)}, 5000);
     }
   };
 
@@ -138,6 +195,19 @@ const Task = () => {
   
   return(
     <>
+      {showWarning && 
+        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="warning"><strong>* Title required</strong></Alert>
+        </Stack>
+      }
+
+      {showError && 
+        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
+          <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+        </Stack>
+      }
+
+
       {
         tasks && tasks.map((task) => (
           <div id="task" key={task.id} onClick={() => openModal(task)}>
@@ -147,7 +217,7 @@ const Task = () => {
             <div style={{ flex: 1 }}>
               <p>{task.taskTitle}</p>
             </div>
-            <IconButton style={{ color: "#1B263B", marginRight: "10px" }}>
+            <IconButton style={{ color: "#1B263B", marginRight: "10px" }} onClick={() => handleDelete(task.id)}>
               <DeleteOutlineOutlinedIcon />
             </IconButton>
           </div>
@@ -164,7 +234,7 @@ const Task = () => {
                   variant="filled"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
-                  label="Task Title"
+                  label="Task Title *"
                   multiline
                 />
                 <TextField
@@ -203,7 +273,7 @@ const Task = () => {
                   variant="filled"
                   value={createTitle}
                   onChange={(e) => setCreateTitle(e.target.value)}
-                  label="Task Title"
+                  label="Task Title *"
                   multiline
                 />
                 <TextField

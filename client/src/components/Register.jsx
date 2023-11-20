@@ -26,20 +26,16 @@ const Register = () => {
     password: '',
     passwordConfirm: '',
   });
-  const passwordsMatch = formData.password === formData.passwordConfirm;
   
+  const passwordsMatch = formData.password === formData.passwordConfirm;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const handleMouseDownPassword = (e) => {e.preventDefault()};
 
   const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
 
-  const handleMouseDownPasswordConfirm = (event) => {
-    event.preventDefault();
-  };
+  const handleMouseDownPasswordConfirm = (e) => {e.preventDefault()};
 
 
   const handleChange = (event) => {
@@ -69,12 +65,15 @@ const Register = () => {
           break;
         case 409:
           setShowWarning(true);
+          setTimeout(() => {setShowWarning(false)}, 5000);
           break;
         default:
           setShowError(true);
+          setTimeout(() => {setShowError(false)}, 5000);
       }
     } catch (error) {
       setShowError(true);
+      setTimeout(() => {setShowError(false)}, 5000);
     }
   };
 
