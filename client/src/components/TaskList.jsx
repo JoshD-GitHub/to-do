@@ -1,6 +1,5 @@
 import IconButton from '@mui/material/IconButton';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { DeleteOutlineOutlinedIcon, DragHandleIcon } from '@mui/icons-material/';
 
 const TaskList = ({ tasks, openModal, handleDelete }) => {
   return (

@@ -1,7 +1,20 @@
-import FormControl from '@mui/material/FormControl';
-import { createTheme, ThemeProvider, Button, TextField } from '@mui/material';
+import {
+  createTheme,
+  Button,
+  FormControl,
+  TextField,
+  ThemeProvider,
+} from '@mui/material';
 
-const TaskModal = ({ title, description, setTitle, setDescription, onSave, onClose, changesMade }) => {
+const TaskModal = ({
+  title,
+  description,
+  setTitle,
+  setDescription,
+  onSave,
+  onClose,
+  changesMade,
+}) => {
   const themeDark = createTheme({
     palette: {
       primary: {
@@ -17,31 +30,31 @@ const TaskModal = ({ title, description, setTitle, setDescription, onSave, onClo
           <ThemeProvider theme={themeDark}>
             <TextField
               fullWidth
-              className='overflow'
-              variant='filled'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              label='Task Title *'
               multiline
+              className='overflow'
+              label='Task Title *'
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              variant='filled'
             />
             <TextField
               fullWidth
-              className='overflow'
-              variant='filled'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              label='Task Description'
               multiline
+              className='overflow'
+              label='Task Description'
+              onChange={(e) => setDescription(e.target.value)}
               rows={18}
               sx={{ mt: 2 }}
+              value={description}
+              variant='filled'
             />
             <Button
-              size='large'
-              variant='contained'
-              type='submit'
               id='button bottom'
               onClick={changesMade ? onSave : onClose}
+              size='large'
               sx={{ mt: 2 }}
+              type='submit'
+              variant='contained'
             >
               {changesMade ? 'Save' : 'Exit'}
             </Button>
