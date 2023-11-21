@@ -1,18 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import {
-  createTheme,
-  ThemeProvider,
-  Button,
-  FormControl,
-  IconButton,
-  TextField,
-  Stack,
-  Alert,
-} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, IconButton, Stack } from '@mui/material/Stack';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import TaskList from './TaskList';
+import TaskModal from './TaskModal';
 
 const Task = () => {
   const [showError, setShowError] = useState(false);
@@ -27,15 +17,12 @@ const Task = () => {
   const [isCreating, setIsCreating] = useState(false);
   const isFuncInProgress = useRef(false);
 
-  const changesMade = selectedTask && (
-    editedTitle !== selectedTask.taskTitle ||
-    editedDescription !== selectedTask.taskDescription
-  );
+  const changesMade =
+    selectedTask &&
+    (editedTitle !== selectedTask.taskTitle ||
+      editedDescription !== selectedTask.taskDescription);
 
-  const createChangesMade = (
-    createTitle !== '' ||
-    createDescription !== ''
-  );
+  const createChangesMade = createTitle !== '' || createDescription !== '';
 
   const openCreateModal = () => {
     setCreateTitle('');
@@ -46,7 +33,6 @@ const Task = () => {
   const closeCreateModal = () => {
     setIsCreating(false);
   };
-
 
   const openModal = (task) => {
     if (!isFuncInProgress.current) {
@@ -67,9 +53,10 @@ const Task = () => {
     const response = await fetch('/api/task/', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-      }});
+      },
+    });
     const data = await response.json();
     setTasks(data);
   };
@@ -80,7 +67,7 @@ const Task = () => {
       const response = await fetch(`/api/task/${selectedTask.id}`, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -96,15 +83,21 @@ const Task = () => {
           break;
         case 400:
           setShowWarning(true);
-          setTimeout(() => {setShowWarning(false)}, 5000);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 5000);
           break;
         default:
           setShowError(true);
-          setTimeout(() => {setShowError(false)}, 5000);
+          setTimeout(() => {
+            setShowError(false);
+          }, 5000);
       }
     } catch (error) {
       setShowError(true);
-      setTimeout(() => {setShowError(false)}, 5000);
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
     }
   };
 
@@ -114,7 +107,7 @@ const Task = () => {
       const response = await fetch('/api/task/', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -130,27 +123,35 @@ const Task = () => {
           break;
         case 400:
           setShowWarning(true);
-          setTimeout(() => {setShowWarning(false)}, 5000);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 5000);
           break;
         default:
           setShowError(true);
-          setTimeout(() => {setShowError(false)}, 5000);
+          setTimeout(() => {
+            setShowError(false);
+          }, 5000);
       }
     } catch (error) {
       setShowError(true);
-      setTimeout(() => {setShowError(false)}, 5000);
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
     }
   };
 
   const handleDelete = async (taskId) => {
     try {
       isFuncInProgress.current = true;
-      setTimeout(() => {isFuncInProgress.current = false}, 500);
+      setTimeout(() => {
+        isFuncInProgress.current = false;
+      }, 500);
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/task/${taskId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
@@ -162,152 +163,88 @@ const Task = () => {
           break;
         case 404:
           setShowWarning(true);
-          setTimeout(() => {setShowWarning(false)}, 5000);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 5000);
           break;
         default:
           setShowError(true);
-          setTimeout(() => {setShowError(false)}, 5000);
+          setTimeout(() => {
+            setShowError(false);
+          }, 5000);
       }
     } catch (error) {
       setShowError(true);
-      setTimeout(() => {setShowError(false)}, 5000);
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
     }
   };
-
-  const themeLight = createTheme({
-    palette: {
-      primary: {
-        main: "#415A77",
-      },
-    },
-  });
-
-  const themeDark = createTheme({
-    palette: {
-      primary: {
-        main: "#1B263B",
-      },
-    },
-  });
-
+  
   useEffect(() => {
     fetchTask();
   }, []);
 
-  return(
+  return (
     <>
-      {showWarning && 
-        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
-          <Alert severity="warning"><strong>* Title required</strong></Alert>
+      {showWarning && (
+        <Stack
+          sx={{ width: '25%', position: 'absolute', zIndex: 9999 }}
+          spacing={2}
+        >
+          <Alert severity='warning'>
+            <strong>* Title required</strong>
+          </Alert>
         </Stack>
-      }
+      )}
 
-      {showError && 
-        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
-          <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+      {showError && (
+        <Stack
+          sx={{ width: '25%', position: 'absolute', zIndex: 9999 }}
+          spacing={2}
+        >
+          <Alert severity='error'>
+            <strong>Something went wrong :&#40;</strong>
+          </Alert>
         </Stack>
-      }
+      )}
 
-
-      {tasks && 
-        tasks.map((task) => (
-          <div id="task" key={task.id} onClick={() => openModal(task)}>
-            <IconButton style={{ color: "#1B263B", marginLeft: "10px" }}>
-              <DragHandleIcon />
-            </IconButton>
-            <div style={{ flex: 1 }}>
-              <p>{task.taskTitle}</p>
-            </div>
-            <IconButton style={{ color: "#1B263B", marginRight: "10px" }} onClick={() => handleDelete(task.id)}>
-              <DeleteOutlineOutlinedIcon />
-            </IconButton>
-          </div>
-        ))
-      }
+      <TaskList
+        tasks={tasks}
+        openModal={openModal}
+        handleDelete={handleDelete}
+      />
 
       {isEditing && (
-        <div className="modal">
-          <div className="modal-content">            
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <ThemeProvider theme={themeDark}>
-                <TextField
-                  fullWidth
-                  className="overflow"
-                  variant="filled"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                  label="Task Title *"
-                  multiline
-                />
-                <TextField
-                  fullWidth
-                  className="overflow"
-                  variant="filled"
-                  value={editedDescription}
-                  onChange={(e) => setEditedDescription(e.target.value)}
-                  label="Task Description"
-                  multiline
-                  rows={18}
-                  sx={{ mt: 2 }}
-                />
-                <Button
-                  size="large"
-                  variant="contained"
-                  type="submit"
-                  id="button bottom"
-                  onClick={changesMade ? handleSave : closeModal}
-                  sx={{ mt: 2 }}>
-                  {changesMade ? 'Save' : 'Exit'}
-                </Button>
-              </ThemeProvider>
-            </FormControl>
-          </div>
-        </div>
+        <TaskModal
+          title={editedTitle}
+          description={editedDescription}
+          setTitle={setEditedTitle}
+          setDescription={setEditedDescription}
+          onSave={handleSave}
+          onClose={closeModal}
+          changesMade={changesMade}
+        />
       )}
 
       {isCreating && (
-        <div className="modal">
-          <div className="modal-content">            
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <ThemeProvider theme={themeDark}>
-                <TextField
-                  fullWidth
-                  className="overflow"
-                  variant="filled"
-                  value={createTitle}
-                  onChange={(e) => setCreateTitle(e.target.value)}
-                  label="Task Title *"
-                  multiline
-                />
-                <TextField
-                  fullWidth
-                  className="overflow"
-                  variant="filled"
-                  value={createDescription}
-                  onChange={(e) => setCreateDescription(e.target.value)}
-                  label="Task Description"
-                  multiline
-                  rows={18}
-                  sx={{ mt: 2 }}
-                />
-                <Button
-                  size="large"
-                  variant="contained"
-                  type="submit"
-                  id="button bottom"
-                  onClick={createChangesMade ? handleCreate : closeCreateModal}
-                  sx={{ mt: 2 }}>
-                  {createChangesMade ? 'Create' : 'Exit'}
-                </Button>
-              </ThemeProvider>
-            </FormControl>
-          </div>
-        </div>
+        <TaskModal
+          title={createTitle}
+          description={createDescription}
+          setTitle={setCreateTitle}
+          setDescription={setCreateDescription}
+          onSave={handleCreate}
+          onClose={closeCreateModal}
+          changesMade={createChangesMade}
+        />
       )}
 
-      <div id="circle">
-        <IconButton style={{ color: "#1B263B" }} onClick={() => openCreateModal()}>
-          <AddCircleIcon style={{ width: "50px", height: "50px" }} />
+      <div id='circle'>
+        <IconButton
+          style={{ color: '#1B263B' }}
+          onClick={() => openCreateModal()}
+        >
+          <AddCircleIcon style={{ width: '50px', height: '50px' }} />
         </IconButton>
       </div>
     </>
