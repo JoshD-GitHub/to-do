@@ -18,6 +18,7 @@ const Home = () => {
       },
     },
   });
+  
   const themeDark = createTheme({
     palette: {
       primary: {
