@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import {
   createTheme,
-  ThemeProvider,
   Alert,
   Button,
   FormControl,
   IconButton,
   Input,
-  InputLabel,
   InputAdornment,
+  InputLabel,
   Stack,
+  ThemeProvider,
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -26,17 +26,21 @@ const Register = () => {
     password: '',
     passwordConfirm: '',
   });
-  
+
   const passwordsMatch = formData.password === formData.passwordConfirm;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (e) => {e.preventDefault()};
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
 
-  const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
+  const handleClickShowPasswordConfirm = () =>
+    setShowPasswordConfirm((show) => !show);
 
-  const handleMouseDownPasswordConfirm = (e) => {e.preventDefault()};
-
+  const handleMouseDownPasswordConfirm = (e) => {
+    e.preventDefault();
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -65,22 +69,28 @@ const Register = () => {
           break;
         case 409:
           setShowWarning(true);
-          setTimeout(() => {setShowWarning(false)}, 5000);
+          setTimeout(() => {
+            setShowWarning(false);
+          }, 5000);
           break;
         default:
           setShowError(true);
-          setTimeout(() => {setShowError(false)}, 5000);
+          setTimeout(() => {
+            setShowError(false);
+          }, 5000);
       }
     } catch (error) {
       setShowError(true);
-      setTimeout(() => {setShowError(false)}, 5000);
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
     }
   };
 
   const themeLight = createTheme({
     palette: {
       primary: {
-        main: "#778DA9",
+        main: '#778DA9',
       },
     },
   });
@@ -88,71 +98,82 @@ const Register = () => {
   const themeDark = createTheme({
     palette: {
       primary: {
-        main: "#1B263B",
+        main: '#1B263B',
       },
     },
   });
-  
-  return(
+
+  return (
     <>
-
-      {showWarning && 
-        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
-          <Alert severity="warning"><strong>Username already exists</strong></Alert>
+      {showWarning && (
+        <Stack
+          sx={{ width: '25%', position: 'absolute', zIndex: 9999 }}
+          spacing={2}
+        >
+          <Alert severity='warning'>
+            <strong>Username already exists</strong>
+          </Alert>
         </Stack>
-      }
+      )}
 
-      {showError && 
-        <Stack sx={{ width: "25%", position: "absolute", zIndex: 9999 }} spacing={2}>
-          <Alert severity="error"><strong>Something went wrong :&#40;</strong></Alert>
+      {showError && (
+        <Stack
+          sx={{ width: '25%', position: 'absolute', zIndex: 9999 }}
+          spacing={2}
+        >
+          <Alert severity='error'>
+            <strong>Something went wrong :&#40;</strong>
+          </Alert>
         </Stack>
-      }
+      )}
 
-      <div id="outer-square">
-        <div id="title-container">
-          <h1 id="title">To-Do</h1>
+      <div id='outer-square'>
+        <div id='title-container'>
+          <h1 id='title'>To-Do</h1>
           <ThemeProvider theme={themeDark}>
             <Link to={'/'}>
               <Button
-                size="large"
-                variant="contained"
-                type="submit"
-                id="button"
-              >Log In</Button>
+                size='large'
+                variant='contained'
+                type='submit'
+                id='button'
+              >
+                Log In
+              </Button>
             </Link>
           </ThemeProvider>
         </div>
 
-        <div id="container">
-          <form id="form-box" onSubmit={handleSubmit}>
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Username</InputLabel>
+        <div id='container'>
+          <form id='form-box' onSubmit={handleSubmit}>
+            <FormControl sx={{ m: 1, width: '25ch' }} variant='standard'>
+              <InputLabel style={{ color: '#E0E1DD' }}>Username</InputLabel>
               <ThemeProvider theme={themeLight}>
                 <Input
                   required
-                  name="username"
+                  name='username'
                   onChange={handleChange}
                   value={formData.username}
-                  style={{ color: "#E0E1DD" }}
-                  className="center"
+                  style={{ color: '#E0E1DD' }}
+                  className='center'
                 />
               </ThemeProvider>
-            </FormControl> <br />
-            
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Password</InputLabel>
+            </FormControl>{' '}
+            <br />
+            <FormControl sx={{ m: 1, width: '25ch' }} variant='standard'>
+              <InputLabel style={{ color: '#E0E1DD' }}>Password</InputLabel>
               <ThemeProvider theme={themeLight}>
                 <Input
                   required
-                  name="password"
+                  name='password'
                   onChange={handleChange}
                   value={formData.password}
-                  style={{ color: "#E0E1DD" }}
-                  type={showPassword ? "text" : "password"}
+                  style={{ color: '#E0E1DD' }}
+                  type={showPassword ? 'text' : 'password'}
                   endAdornment={
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <IconButton
-                        style={{ color: "#E0E1DD" }}
+                        style={{ color: '#E0E1DD' }}
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                       >
@@ -162,39 +183,49 @@ const Register = () => {
                   }
                 />
               </ThemeProvider>
-            </FormControl> <br />
-
-            <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-              <InputLabel style={{ color: "#E0E1DD" }}>Confirm Password</InputLabel>
+            </FormControl>{' '}
+            <br />
+            <FormControl sx={{ m: 1, width: '25ch' }} variant='standard'>
+              <InputLabel style={{ color: '#E0E1DD' }}>
+                Confirm Password
+              </InputLabel>
               <ThemeProvider theme={themeLight}>
                 <Input
                   required
-                  name="passwordConfirm"
+                  name='passwordConfirm'
                   onChange={handleChange}
                   value={formData.passwordConfirm}
-                  style={{ color: "#E0E1DD" }}
-                  type={showPasswordConfirm ? "text" : "password"}
+                  style={{ color: '#E0E1DD' }}
+                  type={showPasswordConfirm ? 'text' : 'password'}
                   endAdornment={
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <IconButton
-                        style={{ color: "#E0E1DD" }}
+                        style={{ color: '#E0E1DD' }}
                         onClick={handleClickShowPasswordConfirm}
                         onMouseDown={handleMouseDownPasswordConfirm}
                       >
-                        {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
+                        {showPasswordConfirm ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   }
                 />
               </ThemeProvider>
-            </FormControl> <br />
-
+            </FormControl>{' '}
+            <br />
             <Button
-              style={passwordsMatch ? { color: "#E0E1DD" } : { color: "#1B263B" }}
-              variant="text"
-              type="submit"
+              style={
+                passwordsMatch ? { color: '#E0E1DD' } : { color: '#1B263B' }
+              }
+              variant='text'
+              type='submit'
               disabled={!passwordsMatch}
-            >Register</Button>
+            >
+              Register
+            </Button>
           </form>
         </div>
       </div>

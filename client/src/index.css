@@ -1,6 +1,6 @@
 body {
-  background-color: #0D1B2A;
-  color: #E0E1DD;
+  background-color: #0d1b2a;
+  color: #e0e1dd;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -11,7 +11,7 @@ body {
 }
 
 #outer-square {
-  background-color: #1B263B;
+  background-color: #1b263b;
   width: 95vw;
   height: 90vh;
   overflow: hidden;
@@ -21,7 +21,7 @@ body {
 
 #title-container {
   position: relative;
-  background-color: #415A77;
+  background-color: #415a77;
   width: 95%;
   margin: 0 auto;
   border-radius: 10px;
@@ -33,7 +33,7 @@ body {
   text-align: center;
   font-size: 6em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  border: solid 2px #778DA9;
+  border: solid 2px #778da9;
   border-radius: 10px;
 }
 
@@ -58,7 +58,7 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background-color: #415A77;
+  background-color: #415a77;
   width: 90vw;
   height: 62vh;
   border-radius: 10px;
@@ -66,7 +66,7 @@ body {
 }
 
 #form-box {
-  background-color: #1B263B;
+  background-color: #1b263b;
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -84,8 +84,8 @@ body {
   align-content: center;
   overflow-y: auto;
   margin: 0 auto;
-  background-color: #415A77;
-  border: solid 2px #778DA9;
+  background-color: #415a77;
+  border: solid 2px #778da9;
   width: 90vw;
   height: 62vh;
   border-radius: 10px;
@@ -93,9 +93,9 @@ body {
 }
 
 #task {
-  background-color: #E0E1DD;
-  color: #0D1B2A;
-  border: solid 2px #0D1B2A;
+  background-color: #e0e1dd;
+  color: #0d1b2a;
+  border: solid 2px #0d1b2a;
   text-align: center;
   width: 86vw;
   height: 80px;
@@ -104,7 +104,7 @@ body {
   margin-top: 30px;
   margin: 10px auto;
   display: flex;
-  align-items: 'center';
+  align-items: "center";
 }
 
 #left {
@@ -116,7 +116,7 @@ body {
 }
 
 #circle {
-  background-color: #E0E1DD;
+  background-color: #e0e1dd;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -124,7 +124,7 @@ body {
   align-items: center;
   justify-content: center;
   margin: auto auto;
-  border: solid 2px #0D1B2A;
+  border: solid 2px #0d1b2a;
 }
 
 .modal {
@@ -141,7 +141,7 @@ body {
 }
 
 .modal-content {
-  background: #E0E1DD;
+  background: #e0e1dd;
   display: flex;
   align-content: center;
   justify-content: center;
