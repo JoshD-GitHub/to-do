@@ -1,8 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Task from "./Task";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  } 
+
   const themeLight = createTheme({
     palette: {
       primary: {
@@ -24,7 +32,7 @@ const Home = () => {
         <div id="title-container">
           <h1 id="title">To-Do</h1>
           <ThemeProvider theme={themeDark}>
-            <Button size="large" variant="contained" type="submit" id="button">
+            <Button size="large" variant="contained" type="submit" id="button" onClick={handleLogOut}>
               Log out
             </Button>
           </ThemeProvider>
