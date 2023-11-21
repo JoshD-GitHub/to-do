@@ -47,9 +47,6 @@ const Task = () => {
     setIsCreating(false);
   };
 
-  useEffect(() => {
-    fetchTask();
-  }, []);
 
   const openModal = (task) => {
     if (!isFuncInProgress.current) {
@@ -192,7 +189,11 @@ const Task = () => {
       },
     },
   });
-  
+
+  useEffect(() => {
+    fetchTask();
+  }, []);
+
   return(
     <>
       {showWarning && 
@@ -231,6 +232,7 @@ const Task = () => {
               <ThemeProvider theme={themeDark}>
                 <TextField
                   fullWidth
+                  className="overflow"
                   variant="filled"
                   value={editedTitle}
                   onChange={(e) => setEditedTitle(e.target.value)}
@@ -270,6 +272,7 @@ const Task = () => {
               <ThemeProvider theme={themeDark}>
                 <TextField
                   fullWidth
+                  className="overflow"
                   variant="filled"
                   value={createTitle}
                   onChange={(e) => setCreateTitle(e.target.value)}
