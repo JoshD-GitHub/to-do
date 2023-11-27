@@ -3,7 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const app = express();
-const PORT = 3005;
+const PORT = process.env.PORT;
 
 app.use(require('body-parser').json());
 app.use(require('morgan')('dev'));

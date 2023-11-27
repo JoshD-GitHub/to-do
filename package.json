@@ -2,8 +2,10 @@
   "scripts": {
     "server": "node ./server/index.js",
     "server:dev": "nodemon ./server/index.js",
-    "client:build": "cd client && npm run build ",
-    "seed": "npx prisma migrate reset "
+    "seed": "npx prisma migrate reset ",
+    "deploy:client": "cd client && npm run preview",
+    "deploy:server": "node ./server/index.js",
+    "deploy": "npm run deploy:client && npm run deploy:server"
   },
   "prisma": {
     "seed": "node ./prisma/seed.js"
