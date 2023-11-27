@@ -3,7 +3,7 @@
     "server": "node ./server/index.js",
     "server:dev": "nodemon ./server/index.js",
     "seed": "npx prisma migrate reset ",
-    "deploy:client": "cd client && npm run preview",
+    "deploy:client": "npm i && cd client && npm run build",
     "deploy:server": "node ./server/index.js",
     "deploy": "npm run deploy:client && npm run deploy:server"
   },
