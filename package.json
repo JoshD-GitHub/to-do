@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": ">=16.13"
+    "node": ">=16.13.0"
   },
   "scripts": {
     "server": "node ./server/index.js",
